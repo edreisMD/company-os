@@ -28,3 +28,9 @@ Runtime: a scheduled agent runs the prompts; GitHub Actions runs deterministic c
 ## Local operation
 
 Run `python tools/plan.py plan /path/to/private/projects.json --cadence daily` (or `weekly`). Claim the shared lock with `python tools/plan.py claim /path/to/private/state/lock.json`; save the returned token. Release with `python tools/plan.py release /path/to/private/state/lock.json TOKEN`. A pre-existing lock fails closed even after 60 minutes. Before removing a stale lock, verify the earlier run has stopped; the recorded PID belongs to the short-lived claim command and is not proof that the agent finished. This lock supports one local host, not a distributed scheduler.
+
+## Frontend company: staged delivery
+
+The smallest frontend company uses five agent definitions: setup (manual), discovery (daily), planner (when prioritized), developer (after plan approval), reviewer (after implementation). CI and deployment are deterministic automation, not additional conversational agents. One feature is active per project.
+
+The shared contract is in [frontend-delivery.md](frontend-delivery.md). Provider IDs, approver identities, credentials and deployment flags belong in each project's private company-context repository, never this public framework.
