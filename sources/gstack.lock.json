@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "upstream": "https://github.com/garrytan/gstack",
+  "fork": "https://github.com/edreisMD/gstack",
+  "commit": "db745675bdf9f575276db2dcd132d3c047218a12",
+  "host": "codex",
+  "roles": {
+    "executive/ceo": "plan-ceo-review",
+    "engineering/manager": "autoplan",
+    "engineering/discovery": "office-hours",
+    "engineering/planner": "plan-eng-review",
+    "engineering/developer": "ship",
+    "engineering/reviewer": "review",
+    "engineering/qa": "qa-only",
+    "engineering/release": "ship",
+    "engineering/retrospective": "retro",
+    "operations/manager": "health",
+    "operations/project-setup": "setup-deploy"
+  }
+}
