@@ -31,9 +31,9 @@ trigger:
   type: manual
 ```
 
-Cron uses five numeric fields: minute, hour, day, month, weekday (Sunday=0). Values, lists, ranges, `*` and steps are supported; named months/weekdays and extension syntax are not. Interval bounds are 60 seconds to seven days. Cron/interval schedules use Temporal SKIP overlap and are synchronized paused. Manual/event roles cannot accidentally acquire timer schedules.
+Cron uses five numeric fields: minute, hour, day, month, weekday (Sunday=0). Values, lists, ranges, `*` and steps are supported; named months/weekdays and extension syntax are not. Interval bounds are 60 seconds to seven days. Cron/interval schedules use Temporal SKIP overlap and are staged paused by one-shot synchronization; the explicit live service applies the effective paused flag. Manual/event roles cannot accidentally acquire timer schedules.
 
-The backend validates IDs against department paths, rejects duplicate IDs, malformed frontmatter, unknown fields, invalid triggers and escaping symlinks. A role's digest covers the effective private overrides, working directory and every supporting file inside its folder. Existing scheduled revisions stop if those inputs change; resynchronize deliberately.
+The backend validates IDs against department paths, rejects duplicate IDs, malformed frontmatter, unknown fields, invalid triggers and escaping symlinks. A role's digest covers the effective private overrides, working directory and every supporting file inside its folder. Activities reject stale revisions. The generic service validates and reconciles changed definitions from the configured checkout.
 
 ## Private bindings
 
@@ -58,10 +58,17 @@ Private overrides may change workspace, paused state and trigger. They cannot re
 
 ## Backend commands
 
+- `coos serve`: run the worker and reconcile the local catalog every 60 seconds, staging paused dry-run schedules. Explicit `--live` applies configured paused states after the approved cutover. It does not pull Git. Removed timer roles are paused.
 - `coos validate`: validate the whole nested catalog and effective bindings.
 - `coos run engineering-planner`: dry-run a selected role; explicit `--live` needs worker `allow_live`.
 - `coos schedules`: synchronize cron/interval roles as paused dry-run schedules. `--live` still synchronizes paused.
 - `coos event issue.prioritized --event-id ISSUE-123-plan-v1`: dry-run matching event roles. `--context-file` supplies JSON; `--live` requires enabled private bindings and worker permission.
 - `coos resume-schedule ROLE --confirm-legacy-disabled`: activate a reviewed timer after private `paused: false`, synchronization and scheduler cutover.
 
-Event IDs are stable deduplication keys: the same event/role cannot create duplicate sessions. Generic events do not verify platform approvals; the existing delivery controller verifies native human comments before implementation/release. The backend supplies model permissions separately. A timer or skill file never grants permission to publish posts, send messages, deploy, change credentials or spend money.
+Event IDs are stable deduplication keys: the same event/role cannot create duplicate sessions. Generic events do not verify platform approvals; an external, project-specific delivery controller must verify native human comments before implementation/release. The backend supplies model permissions separately. A timer or skill file never grants permission to publish posts, send messages, deploy, change credentials or spend money.
+
+## Separation of responsibilities
+
+CompanyOS owns instructions and trigger declarations. The generic Temporal backend owns discovery, validation, schedule reconciliation, event routing, bounded Codex sessions and execution records. Private context binds workspaces and cadence. Platform adapters own authentication, source polling/webhooks, business prerequisites and human approval checks; they live outside the generic backend. A new department or role requires a folder and manifest, not backend code. No native event subscriptions are created merely by declaring an event name.
+
+Only one controller owns each instance/queue. Timer IDs are `coos.INSTANCE.ROLE`. Unchanged definitions preserve operator pauses; a changed definition or restart reapplies manifest state. Orderly shutdown or invalid configuration pauses owned timers; abrupt crashes require external supervision. Event deduplication uses Temporal history retention, so long-lived source replay needs adapter-side durable deduplication.

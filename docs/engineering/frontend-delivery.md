@@ -27,3 +27,5 @@ Prepare code/private-context repositories; configure native Linear project and s
 Use native platform APIs/CLIs and the user's existing accounts. Requests for input and approval are independent of delivery channels; a future iOS client can render the same decisions. No intermediary approval gateway is needed.
 
 A runtime must distinguish definitions from active schedules and deployed infrastructure. Leave incomplete setups disabled, record blockers, and do not claim prompts or shared administrator credentials provide enforced approval separation. Pause the legacy scheduler before enabling its replacement. Failed or uncertain external operations stop for reconciliation rather than retrying blindly.
+
+This is a business workflow specification for a project-specific adapter. The generic Temporal backend only loads role manifests, reconciles timers, routes supplied events and manages Codex runs. Native Linear intake, approval verification and deployment orchestration belong outside that core and require separate configuration and activation.
