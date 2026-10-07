@@ -1,11 +1,11 @@
 # Cadence
 
-These are proposed rituals. Nothing is scheduled by this repository.
+These are reusable rituals. Each company configures its own schedules; see the executable planning support and prompts in [Engineering workflows](engineering/README.md).
 
 | Trigger | Ritual | Result |
 | --- | --- | --- |
 | Once daily, company-local morning | Read last checkpoint; reconcile open work; select one next deliverable | One prioritized brief, or explicit no-op |
-| On a task or code change | Build, review, release | Verified change or bounded defect list |
+| On a task or code change | Build, test, review, request human approval | Draft PR or bounded defect list; release only after approval |
 | After a deployment | Smoke check production URL and important links | Healthy release or rollback / incident record |
 | End of daily cycle | Record shipped work, cost, failures and next step | Durable checkpoint; notify only for a shipment, meaningful change, failure or decision |
 | Once weekly, inside the daily run | Portfolio review | Continue, maintain, pause or archive recommendation per project |

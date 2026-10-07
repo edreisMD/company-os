@@ -2,7 +2,7 @@
 
 A small, runtime-independent operating manual for an agent-run company.
 
-Start with one operator, one project, and one daily cycle. Roles are modes of work, not a requirement to run separate bots. This repository defines behavior; it does not itself run an agent or schedule jobs.
+Start with one operator and one daily cycle. Roles are modes of work, not a requirement to run separate bots. This repository provides operating procedures, CI templates and a tested local run planner. Scheduling is configured separately by each company.
 
 ## Repository boundaries
 
@@ -16,6 +16,8 @@ Start with one operator, one project, and one daily cycle. Roles are modes of wo
 Keep private context in a separate checkout. Public repositories receive only explicitly selected product copy and generic improvements. Never copy run logs, company context, credentials or customer data into a public repository. A private repository also must not contain credentials; store references to a secret manager instead.
 
 ## Start here
+
+For the engineering implementation, start with [Engineering workflows](engineering/README.md). All scheduled work ends in a proposal; humans approve and merge the exact revision before release.
 
 1. Read [roles](roles.md) and [cadence](cadence.md).
 2. Create one project using the [brief](templates/project-brief.md).

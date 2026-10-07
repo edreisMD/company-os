@@ -21,7 +21,7 @@ Do not enable unattended execution until those values are configured and a manua
 4. Select at most one ready task. If none exists, record a no-op and stop.
 5. Record task ID, starting revision and acceptance criteria before implementation.
 6. Build and review. Stop on unmet permissions or exhausted limits; record the exact blocker.
-7. Release only the checked revision to the configured target. Verify the live result. Reuse the existing deployment on a resumed run rather than blindly creating another.
+7. The scheduled engineering cycle stops at a draft PR or local proposal. Human approval of the exact revision is required before merge and release. In a separately authorized release operation, release only the checked revision to the configured target, verify the live result, and reconcile any existing deployment before retrying.
 8. Persist outcome, revision, deployment URL, checks, usage and next action. Release the lease. Notify only for meaningful outcomes.
 
 Use a stable task/revision/action key for each external write. After an ambiguous network result, query the external state before retrying. Bound retries; never loop indefinitely on a failed check or permission request.
