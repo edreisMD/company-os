@@ -1,0 +1,168 @@
+{
+  "$defs": {
+    "CronTrigger": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "cron",
+          "title": "Type",
+          "type": "string"
+        },
+        "expression": {
+          "title": "Expression",
+          "type": "string"
+        },
+        "timezone": {
+          "default": "UTC",
+          "title": "Timezone",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "expression"
+      ],
+      "title": "CronTrigger",
+      "type": "object"
+    },
+    "EventTrigger": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "event",
+          "title": "Type",
+          "type": "string"
+        },
+        "name": {
+          "pattern": "^[a-z][a-z0-9_.-]{0,127}$",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "title": "EventTrigger",
+      "type": "object"
+    },
+    "IntervalTrigger": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "interval",
+          "title": "Type",
+          "type": "string"
+        },
+        "seconds": {
+          "maximum": 604800,
+          "minimum": 60,
+          "title": "Seconds",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "type",
+        "seconds"
+      ],
+      "title": "IntervalTrigger",
+      "type": "object"
+    },
+    "ManualTrigger": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "const": "manual",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "title": "ManualTrigger",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": 2,
+      "title": "Version",
+      "type": "integer"
+    },
+    "id": {
+      "pattern": "^[a-z][a-z0-9-]{0,63}$",
+      "title": "Id",
+      "type": "string"
+    },
+    "workspace": {
+      "default": "project",
+      "title": "Workspace",
+      "type": "string"
+    },
+    "trigger": {
+      "discriminator": {
+        "mapping": {
+          "cron": "#/$defs/CronTrigger",
+          "event": "#/$defs/EventTrigger",
+          "interval": "#/$defs/IntervalTrigger",
+          "manual": "#/$defs/ManualTrigger"
+        },
+        "propertyName": "type"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/CronTrigger"
+        },
+        {
+          "$ref": "#/$defs/IntervalTrigger"
+        },
+        {
+          "$ref": "#/$defs/EventTrigger"
+        },
+        {
+          "$ref": "#/$defs/ManualTrigger"
+        }
+      ],
+      "title": "Trigger"
+    },
+    "paused": {
+      "default": true,
+      "title": "Paused",
+      "type": "boolean"
+    },
+    "timeout_seconds": {
+      "default": 2700,
+      "maximum": 2700,
+      "minimum": 10,
+      "title": "Timeout Seconds",
+      "type": "integer"
+    },
+    "sandbox": {
+      "default": "read-only",
+      "enum": [
+        "read-only",
+        "workspace-write"
+      ],
+      "title": "Sandbox",
+      "type": "string"
+    },
+    "session": {
+      "default": "new",
+      "enum": [
+        "new",
+        "resume"
+      ],
+      "title": "Session",
+      "type": "string"
+    }
+  },
+  "required": [
+    "version",
+    "id",
+    "trigger"
+  ],
+  "title": "AgentConfig",
+  "type": "object"
+}

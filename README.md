@@ -1,31 +1,63 @@
-# Company OS
+# CompanyOS
 
-A small, runtime-independent operating manual for an agent-run company.
+A company organized as agent skills. Each role is one folder containing **SKILL.md** (how it works) and **temporal.yaml** (when it runs). Inspired by [gstack](https://github.com/garrytan/gstack); arranged by department, with a separate Temporal/Codex runtime.
 
-Start with one operator and one daily cycle. Roles are modes of work, not a requirement to run separate bots. This repository provides operating procedures, CI templates and a tested local run planner. Scheduling is configured separately by each company.
+```text
+company-os/
+├── SKILL.md                       # route a request to a role
+├── engineering/
+│   ├── discovery/                 # daily evidence → backlog
+│   ├── planner/                   # prioritized issue → plan
+│   ├── developer/                 # approved plan → draft PR
+│   ├── reviewer/                  # PR → code review
+│   ├── qa/                        # implementation → test evidence
+│   ├── release/                   # staging evidence → release brief
+│   └── retrospective/             # weekly engineering review
+├── operations/
+│   ├── project-setup/             # new company/project bootstrap
+│   └── portfolio-review/          # daily priorities and role handoffs
+├── sales/
+│   ├── linkedin/                  # weekly content/outreach drafts
+│   └── seo/                       # weekly search/content proposals
+├── schemas/temporal.schema.json   # executable manifest contract
+├── scripts/                       # catalog validation and legacy lock helper
+├── docs/                          # operating contracts and migration
+├── standards/                     # release standards
+└── templates/                     # project briefs and CI starter files
+```
+
+Every role directory has the same two-file interface. Supporting `references/`, `scripts/` or `assets/` belong inside a role only when useful. Add deeper levels as the company grows; stable IDs follow the relative path (`engineering/qa` → `engineering-qa`).
+
+## One role
+
+`engineering/developer/SKILL.md` is a normal skill with `name` and `description` frontmatter plus instructions. Its adjacent configuration is:
+
+```yaml
+version: 2
+id: engineering-developer
+workspace: project
+trigger:
+  type: event
+  name: plan.approved
+paused: true
+timeout_seconds: 2700
+sandbox: workspace-write
+session: new
+```
+
+SKILL.md is the source you edit. Unlike gstack's generated skill variants, this catalog does not need `.tmpl` files yet. See [upstream mapping and attribution](docs/gstack.md).
+
+## How it runs
+
+The private backend recursively discovers role pairs from `skills_dir`, validates them, and starts bounded Codex sessions through Temporal. It supports manual invocation, named events, intervals and timezone-aware cron schedules. All role schedules start paused. Event sources are native adapters/operator commands; a label such as `plan.approved` is not approval evidence by itself.
+
+The frontend delivery adapter connects prioritized Linear issues to planner → approved plan → developer → QA → CI/staging → exact-SHA human approval → production. Reviewer, release-brief and sales events can be invoked through the generic event interface; automatic GitHub/LinkedIn/Search Console webhook ingestion is not installed by this repository.
 
 ## Repository boundaries
 
-| Repository | Visibility | Owns |
-| --- | --- | --- |
-| company-os | Public | Generic roles, rituals, run contract, project brief and release standards |
-| landing-kit | Public | Reusable landing-page implementation, design rules and fictional examples |
-| company-private | Private | Company mission, priorities, project registry, decisions, run state and provider identifiers |
-| Each product | Public or private by project | Product code, public copy, tests and deployment configuration |
+- **This public repository:** generic skills, triggers, contracts and examples. One source of truth for role behavior.
+- **Private runtime:** Temporal workflows, Codex sessions, native integrations and journals. It loads this catalog instead of copying prompts.
+- **Private company/project context:** checkout paths, destinations, account IDs, approvers, priorities and role overrides. Credentials remain in secret stores.
+- **Product repositories:** source, tests, previews and deployment workflows. The landing kit remains a separate design library.
 
-Keep private context in a separate checkout. Public repositories receive only explicitly selected product copy and generic improvements. Never copy run logs, company context, credentials or customer data into a public repository. A private repository also must not contain credentials; store references to a secret manager instead.
-
-## Start here
-
-For the engineering implementation, start with [Engineering workflows](engineering/README.md). All scheduled work ends in a proposal; humans approve and merge the exact revision before release.
-
-1. Read [roles](roles.md) and [cadence](cadence.md).
-2. Create one project using the [brief](templates/project-brief.md).
-3. Configure a runtime using the [run contract](run-contract.md).
-4. Ship against the [release standard](standards/release.md).
-
-The first useful system is a complete loop: choose one task, implement it, verify it, publish within configured permissions, record the result, stop. Add another bot only when a measured bottleneck requires simultaneous work or independently credentialed review.
-
-## Inspiration
-
-[gstack](https://github.com/garrytan/gstack) illustrates role-specific software workflows. This project adds an explicit cadence, durable state, and a public/private boundary. It does not include gstack code or claim compatibility with a particular agent runtime.
+Start with [the root routing skill](SKILL.md), [runtime configuration](docs/runtime.md) and [migration notes](docs/migration.md). Run `python scripts/validate.py` after installing PyYAML and jsonschema. Skills are independently readable without Temporal; host-specific discovery/installation is separate from backend recursive loading.

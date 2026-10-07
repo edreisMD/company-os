@@ -1,0 +1,10 @@
+version: 2
+id: engineering-developer
+workspace: project
+trigger:
+  type: event
+  name: plan.approved
+paused: true
+timeout_seconds: 2700
+sandbox: workspace-write
+session: new

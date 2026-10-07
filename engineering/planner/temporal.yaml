@@ -1,0 +1,10 @@
+version: 2
+id: engineering-planner
+workspace: project
+trigger:
+  type: event
+  name: issue.prioritized
+paused: true
+timeout_seconds: 2700
+sandbox: read-only
+session: new
