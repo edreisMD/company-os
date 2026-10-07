@@ -5,7 +5,7 @@ from pathlib import Path
 import sys
 from tempfile import TemporaryDirectory
 import unittest
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'tools'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
 from plan import plan, claim, release
 
 class PlannerTests(unittest.TestCase):

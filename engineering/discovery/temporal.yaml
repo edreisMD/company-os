@@ -1,0 +1,11 @@
+version: 2
+id: engineering-discovery
+workspace: project
+trigger:
+  type: cron
+  expression: 0 9 * * *
+  timezone: America/Los_Angeles
+paused: true
+timeout_seconds: 2700
+sandbox: workspace-write
+session: new

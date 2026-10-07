@@ -1,0 +1,9 @@
+version: 2
+id: operations-project-setup
+workspace: project
+trigger:
+  type: manual
+paused: true
+timeout_seconds: 2700
+sandbox: workspace-write
+session: new
