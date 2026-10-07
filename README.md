@@ -1,6 +1,6 @@
 # CompanyOS
 
-A company organized as agent skills. Each role is one folder containing **SKILL.md** (how it works) and **temporal.yaml** (when it runs). Inspired by [gstack](https://github.com/garrytan/gstack); arranged by department, with a separate Temporal/Codex runtime.
+A company organized as agent skills. Each role is one folder containing **SKILL.md** (how it works) and **temporal.yaml** (when it runs). Built from [our gstack fork](https://github.com/edreisMD/gstack), with complete upstream Codex workflows arranged behind department roles and a separate runtime.
 
 ```text
 company-os/
@@ -50,7 +50,7 @@ sandbox: workspace-write
 session: new
 ```
 
-SKILL.md is the source you edit. Unlike gstack's generated skill variants, this catalog does not need `.tmpl` files yet. See [upstream mapping and attribution](docs/gstack.md).
+SKILL.md contains the CompanyOS role contract. Mapped roles load complete generated gstack workflows from references/gstack; their upstream `.tmpl` sources and supporting sections are preserved. Edit CompanyOS contracts locally and regenerate upstream snapshots through the pinned importer. See [upstream mapping and attribution](docs/gstack.md).
 
 ## How it runs
 
@@ -70,3 +70,5 @@ Start with [the root routing skill](SKILL.md), [runtime configuration](docs/runt
 ## Organization and evolution
 
 The [organization contract](docs/organization.md) defines the CEO, three department managers, reporting cadence and scoped role changes. Managers can prepare subordinate role changes in isolated catalog branches; the CEO can redesign subordinate departments. Changes remain reviewed before adoption, and new roles start paused. Bind management roles to a dedicated `catalog` checkout, separately from product workspaces.
+
+For the proposed visual company console and runtime integration, see the [Orca source assessment and pilot criteria](docs/orca-assessment.md).
