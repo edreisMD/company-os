@@ -1,0 +1,19 @@
+{
+  "timezone": "America/Los_Angeles",
+  "paused": false,
+  "max_minutes": 45,
+  "max_implementation_tasks": 1,
+  "projects": [
+    {
+      "id": "example-site",
+      "profile": "website",
+      "repository": null,
+      "default_branch": "main",
+      "enabled": true,
+      "analytics": "missing",
+      "blockers": [
+        "Configure analytics and repository before PR delivery"
+      ]
+    }
+  ]
+}
