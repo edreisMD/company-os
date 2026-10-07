@@ -5,7 +5,10 @@ A company organized as agent skills. Each role is one folder containing **SKILL.
 ```text
 company-os/
 ├── SKILL.md                       # route a request to a role
+├── executive/ceo/                 # company direction and subordinate role design
+├── governance.yaml                # founder-owned role-editing scopes
 ├── engineering/
+│   ├── manager/                   # department priorities and role evolution
 │   ├── discovery/                 # daily evidence → backlog
 │   ├── planner/                   # prioritized issue → plan
 │   ├── developer/                 # approved plan → draft PR
@@ -14,9 +17,11 @@ company-os/
 │   ├── release/                   # staging evidence → release brief
 │   └── retrospective/             # weekly engineering review
 ├── operations/
+│   ├── manager/                   # operating readiness and role evolution
 │   ├── project-setup/             # new company/project bootstrap
 │   └── portfolio-review/          # daily priorities and role handoffs
 ├── sales/
+│   ├── manager/                   # growth experiments and role evolution
 │   ├── linkedin/                  # weekly content/outreach drafts
 │   └── seo/                       # weekly search/content proposals
 ├── schemas/temporal.schema.json   # executable manifest contract
@@ -56,8 +61,12 @@ The frontend delivery adapter connects prioritized Linear issues to planner → 
 ## Repository boundaries
 
 - **This public repository:** generic skills, triggers, contracts and examples. One source of truth for role behavior.
-- **Private runtime:** Temporal workflows, Codex sessions, native integrations and journals. It loads this catalog instead of copying prompts.
+- **Private runtime:** Temporal workflows, Codex sessions and journals. Native integrations live in project adapters. It loads this catalog instead of copying prompts.
 - **Private company/project context:** checkout paths, destinations, account IDs, approvers, priorities and role overrides. Credentials remain in secret stores.
 - **Product repositories:** source, tests, previews and deployment workflows. The landing kit remains a separate design library.
 
 Start with [the root routing skill](SKILL.md), [runtime configuration](docs/runtime.md) and [migration notes](docs/migration.md). Run `python scripts/validate.py` after installing PyYAML and jsonschema. Skills are independently readable without Temporal; host-specific discovery/installation is separate from backend recursive loading.
+
+## Organization and evolution
+
+The [organization contract](docs/organization.md) defines the CEO, three department managers, reporting cadence and scoped role changes. Managers can prepare subordinate role changes in isolated catalog branches; the CEO can redesign subordinate departments. Changes remain reviewed before adoption, and new roles start paused. Bind management roles to a dedicated `catalog` checkout, separately from product workspaces.

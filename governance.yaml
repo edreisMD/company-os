@@ -1,0 +1,21 @@
+version: 1
+max_roles_per_department: 12
+owners:
+  executive-ceo:
+    reports_to: founder
+    editable_departments:
+    - engineering
+    - operations
+    - sales
+  engineering-manager:
+    reports_to: executive-ceo
+    editable_departments:
+    - engineering
+  operations-manager:
+    reports_to: executive-ceo
+    editable_departments:
+    - operations
+  sales-manager:
+    reports_to: executive-ceo
+    editable_departments:
+    - sales

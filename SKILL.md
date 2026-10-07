@@ -7,6 +7,10 @@ description: Route company work to a department role skill for engineering, oper
 
 Choose the role matching the requested outcome and read its SKILL.md. Each role is independently invocable; its adjacent temporal.yaml defines runtime triggers, not additional action permissions.
 
+- Company direction and organization: executive/ceo/SKILL.md
+- Engineering coordination and role design: engineering/manager/SKILL.md
+- Operations coordination and role design: operations/manager/SKILL.md
+- Growth coordination and role design: sales/manager/SKILL.md
 - Product opportunity or backlog evidence: engineering/discovery/SKILL.md
 - Implementation plan: engineering/planner/SKILL.md
 - Approved implementation: engineering/developer/SKILL.md
