@@ -1,0 +1,62 @@
+version: 1
+id: frontend
+description: Maintain a frontend with independent review, browser QA and exact-revision
+  release decisions.
+steps:
+- id: plan
+  kind: agent
+  needs: []
+  role: engineering/planner
+  placement: control
+  contract: plan
+- id: plan-approval
+  kind: decision
+  needs:
+  - plan
+  gate: plan
+- id: develop
+  kind: agent
+  needs:
+  - plan-approval
+  role: engineering/developer
+  placement: isolated
+  contract: candidate
+- id: review
+  kind: agent
+  needs:
+  - develop
+  role: engineering/reviewer
+  placement: candidate
+  contract: review
+- id: qa
+  kind: agent
+  needs:
+  - review
+  role: engineering/qa
+  placement: candidate
+  contract: qa
+- id: delivery
+  kind: agent
+  needs:
+  - review
+  - qa
+  role: engineering/release
+  placement: candidate
+  contract: delivery
+- id: release-approval
+  kind: decision
+  needs:
+  - delivery
+  gate: release
+- id: publication-confirmation
+  kind: decision
+  needs:
+  - release-approval
+  gate: publication
+- id: verify
+  kind: agent
+  needs:
+  - publication-confirmation
+  role: engineering/release
+  placement: control
+  contract: verification

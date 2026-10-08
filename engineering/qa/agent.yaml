@@ -1,10 +1,10 @@
-version: 2
+version: 1
 id: engineering-qa
 workspace: project
 trigger:
   type: event
   name: implementation.ready
-paused: true
 timeout_seconds: 2700
 sandbox: read-only
 session: new
+schedule_paused: true

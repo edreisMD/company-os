@@ -1,0 +1,11 @@
+version: 1
+id: operations-manager
+workspace: catalog
+trigger:
+  type: cron
+  expression: 30 8 * * 1-5
+  timezone: America/Los_Angeles
+timeout_seconds: 900
+sandbox: workspace-write
+session: new
+schedule_paused: true
