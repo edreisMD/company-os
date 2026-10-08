@@ -5,6 +5,6 @@ trigger:
   type: event
   name: implementation.ready
 timeout_seconds: 2700
-sandbox: workspace-write
+sandbox: read-only
 session: new
 schedule_paused: true

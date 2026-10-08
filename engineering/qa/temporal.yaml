@@ -6,5 +6,5 @@ trigger:
   name: implementation.ready
 paused: true
 timeout_seconds: 2700
-sandbox: workspace-write
+sandbox: read-only
 session: new
