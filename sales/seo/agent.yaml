@@ -1,0 +1,11 @@
+version: 1
+id: sales-seo
+workspace: project
+trigger:
+  type: cron
+  expression: 0 9 * * 1
+  timezone: America/Los_Angeles
+timeout_seconds: 2700
+sandbox: read-only
+session: new
+schedule_paused: true

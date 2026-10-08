@@ -1,6 +1,6 @@
 # CompanyOS
 
-A company organized as agent skills. Each role is one folder containing **SKILL.md** (how it works) and **temporal.yaml** (when it runs). Built from [our gstack fork](https://github.com/edreisMD/gstack), with complete upstream Codex workflows arranged behind department roles and a separate runtime.
+A company organized as agent skills. Each role contains **SKILL.md** (how it works), **agent.yaml** (runtime-neutral execution metadata) and **temporal.yaml** (compatible Temporal configuration). Built from [our gstack fork](https://github.com/edreisMD/gstack), with complete upstream Codex workflows arranged behind department roles and a separate runtime.
 
 ```text
 company-os/
@@ -24,14 +24,15 @@ company-os/
 │   ├── manager/                   # growth experiments and role evolution
 │   ├── linkedin/                  # weekly content/outreach drafts
 │   └── seo/                       # weekly search/content proposals
-├── schemas/temporal.schema.json   # executable manifest contract
+├── teams/                         # frontend and open-source workflow graphs
+├── schemas/                       # agent, team and Temporal contracts
 ├── scripts/                       # catalog validation and legacy lock helper
 ├── docs/                          # operating contracts and migration
 ├── standards/                     # release standards
 └── templates/                     # project briefs and CI starter files
 ```
 
-Every role directory has the same two-file interface. Supporting `references/`, `scripts/` or `assets/` belong inside a role only when useful. Add deeper levels as the company grows; stable IDs follow the relative path (`engineering/qa` → `engineering-qa`).
+Every role directory has the same skill and configuration interface. Supporting `references/`, `scripts/` or `assets/` belong inside a role only when useful. Add deeper levels as the company grows; stable IDs follow the relative path (`engineering/qa` → `engineering-qa`).
 
 ## One role
 
@@ -54,6 +55,8 @@ SKILL.md contains the CompanyOS role contract. Mapped roles load complete genera
 
 ## How it runs
 
+[ceo](docs/ceo.md) coordinates objectives across projects through one Pi conversation, while Orca runs and exposes the workers. It reads agent.yaml and team.yaml at exact catalog commits. Private installation configuration binds projects to teams and configured harnesses. Teams include independent review and QA plus artifact-bound plan, release and publication decisions. The ceo pilot keeps the Temporal backend paused.
+
 The private backend recursively discovers role pairs from `skills_dir`, validates them, and starts bounded Codex sessions through Temporal. It supports manual invocation, named events, intervals and timezone-aware cron schedules. All role schedules start paused. Event sources are native adapters/operator commands; a label such as `plan.approved` is not approval evidence by itself.
 
 The frontend delivery adapter connects prioritized Linear issues to planner → approved plan → developer → QA → CI/staging → exact-SHA human approval → production. Reviewer, release-brief and sales events can be invoked through the generic event interface; automatic GitHub/LinkedIn/Search Console webhook ingestion is not installed by this repository.
@@ -61,7 +64,7 @@ The frontend delivery adapter connects prioritized Linear issues to planner → 
 ## Repository boundaries
 
 - **This public repository:** generic skills, triggers, contracts and examples. One source of truth for role behavior.
-- **Private runtime:** Temporal workflows, Codex sessions and journals. Native integrations live in project adapters. It loads this catalog instead of copying prompts.
+- **Runtime:** public ceo harness or the private Temporal backend. Installation state, sessions, journals and native account bindings remain private. Both read this catalog instead of duplicating prompts.
 - **Private company/project context:** checkout paths, destinations, account IDs, approvers, priorities and role overrides. Credentials remain in secret stores.
 - **Product repositories:** source, tests, previews and deployment workflows. The landing kit remains a separate design library.
 
@@ -70,5 +73,7 @@ Start with [the root routing skill](SKILL.md), [runtime configuration](docs/runt
 ## Organization and evolution
 
 The [organization contract](docs/organization.md) defines the CEO, three department managers, reporting cadence and scoped role changes. Managers can prepare subordinate role changes in isolated catalog branches; the CEO can redesign subordinate departments. Changes remain reviewed before adoption, and new roles start paused. Bind management roles to a dedicated `catalog` checkout, separately from product workspaces.
+
+An installation may explicitly authorize ceo's scoped organization experiments, publishing generic changes to ceo/active and activating exact commits for future goals. That private founder grant, its validation rules and rollback are described in [ceo teams](docs/ceo.md); a role cannot change its own authority.
 
 For the proposed visual company console and runtime integration, see the [Orca source assessment and pilot criteria](docs/orca-assessment.md).

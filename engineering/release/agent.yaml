@@ -1,0 +1,10 @@
+version: 1
+id: engineering-release
+workspace: project
+trigger:
+  type: event
+  name: staging.passed
+timeout_seconds: 2700
+sandbox: read-only
+session: new
+schedule_paused: true

@@ -1,0 +1,11 @@
+version: 1
+id: sales-linkedin
+workspace: project
+trigger:
+  type: cron
+  expression: 0 10 * * 2
+  timezone: America/Los_Angeles
+timeout_seconds: 2700
+sandbox: read-only
+session: new
+schedule_paused: true

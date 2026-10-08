@@ -1,0 +1,10 @@
+version: 1
+id: engineering-qa
+workspace: project
+trigger:
+  type: event
+  name: implementation.ready
+timeout_seconds: 2700
+sandbox: workspace-write
+session: new
+schedule_paused: true

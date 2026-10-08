@@ -1,0 +1,10 @@
+version: 1
+id: engineering-reviewer
+workspace: project
+trigger:
+  type: event
+  name: pull_request.opened
+timeout_seconds: 2700
+sandbox: read-only
+session: new
+schedule_paused: true
